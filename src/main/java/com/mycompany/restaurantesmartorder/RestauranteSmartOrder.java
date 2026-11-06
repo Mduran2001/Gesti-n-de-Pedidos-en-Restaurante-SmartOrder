@@ -4,7 +4,7 @@
 package com.mycompany.restaurantesmartorder;
 
 import javax.swing.SwingUtilities;
-import com.mycompany.restaurantesmartorder.view.LoginView;
+import View.LoginView;
 
 /**
  *
