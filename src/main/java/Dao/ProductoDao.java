@@ -3,11 +3,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Dao;
+import Model.Producto;
+import java.util.List;
 
 /**
  *
- * @author mario
+ * @author casti
  */
-public class ProductoDao {
-    
+public interface ProductoDao {
+
+    boolean insertar(Producto producto);
+
+    Producto buscarPorId(int idProducto);
+
+    List<Producto> listar();
+
+    List<Producto> listarPorCategoria(int idCategoria);
+
+    boolean actualizar(Producto producto);
+
+    boolean eliminar(int idProducto);
 }
