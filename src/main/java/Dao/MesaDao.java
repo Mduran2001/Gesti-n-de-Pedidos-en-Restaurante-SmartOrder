@@ -3,11 +3,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Dao;
-
+import Model.Mesa;
+import java.util.List;
 /**
  *
- * @author mario
+ * @author casti
  */
-public class MesaDao {
-    
+public interface MesaDao {
+
+    boolean insertar(Mesa mesa);
+
+    Mesa buscarPorId(int idMesa);
+
+    List<Mesa> listar();
+
+    boolean actualizar(Mesa mesa);
+
+    boolean eliminar(int idMesa);
 }

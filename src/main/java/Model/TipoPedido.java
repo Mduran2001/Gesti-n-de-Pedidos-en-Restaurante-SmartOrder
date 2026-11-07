@@ -6,8 +6,12 @@ package Model;
 
 /**
  *
- * @author mario
+ * @author casti
  */
-public class TipoPedido {
-    
+public enum TipoPedido {
+
+    MESA,
+    PARA_LLEVAR,
+    DOMICILIO
+
 }

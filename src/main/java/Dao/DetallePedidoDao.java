@@ -3,11 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Dao;
-
+import Model.DetallePedido;
+import java.util.List;
 /**
  *
- * @author mario
+ * @author casti
  */
-public class DetallePedidoDao {
-    
+public interface DetallePedidoDao {
+
+    boolean insertar(DetallePedido detallePedido);
+
+    DetallePedido buscarPorId(int idDetallePedido);
+
+    List<DetallePedido> listar();
+
+    List<DetallePedido> listarPorPedido(int idPedido);
+
+    boolean actualizar(DetallePedido detallePedido);
+
+    boolean eliminar(int idDetallePedido);
 }

@@ -3,11 +3,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Dao;
-
+import Model.Pedido;
+import java.util.List;
 /**
  *
- * @author mario
+ * @author casti
  */
-public class PedidoDao {
-    
+public interface PedidoDao {
+
+    boolean insertar(Pedido pedido);
+
+    Pedido buscarPorId(int idPedido);
+
+    List<Pedido> listar();
+
+    List<Pedido> listarPorCliente(int idCliente);
+
+    List<Pedido> listarPorEstado(String estado);
+
+    boolean actualizar(Pedido pedido);
+
+    boolean eliminar(int idPedido);
 }

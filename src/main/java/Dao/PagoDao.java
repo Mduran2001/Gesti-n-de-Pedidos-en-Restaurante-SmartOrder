@@ -3,11 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Dao;
-
+import Model.Pago;
+import java.util.List;
 /**
  *
- * @author mario
+ * @author casti
  */
-public class PagoDao {
-    
+public interface PagoDao {
+
+    boolean insertar(Pago pago);
+
+    Pago buscarPorId(int idPago);
+
+    List<Pago> listar();
+
+    List<Pago> listarPorPedido(int idPedido);
+
+    boolean actualizar(Pago pago);
+
+    boolean eliminar(int idPago);
 }
