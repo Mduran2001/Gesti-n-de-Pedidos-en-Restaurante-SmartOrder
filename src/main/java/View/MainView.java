@@ -28,7 +28,7 @@ public class MainView extends JFrame {
         JLabel brand = new JLabel("Restaurante SmartOrder"); brand.setForeground(Color.WHITE);
         brand.setFont(new Font("SansSerif",Font.BOLD,19)); brand.setBorder(BorderFactory.createEmptyBorder(30,22,35,8));
         sidebar.add(brand);
-        String[] sections = {"Dashboard","Usuarios","Menu","Mesas","Pedidos","Cocina","Caja"};
+        String[] sections = {"Dashboard","Usuarios","Menu","Mesas","Pedidos","Cocina","Caja","Facturas"};
         for (String s:sections) {
             JButton b = new JButton(s + "    ➜"); b.setHorizontalAlignment(SwingConstants.LEFT);
             b.setForeground(Color.WHITE); b.setBackground(dark); b.setBorder(BorderFactory.createEmptyBorder(15,70,15,8));
@@ -40,8 +40,8 @@ public class MainView extends JFrame {
         sidebar.add(Box.createVerticalGlue()); sidebar.add(exit); sidebar.add(Box.createVerticalStrut(25));
         add(sidebar,BorderLayout.WEST);
         pages.add(dashboard(),"Dashboard"); pages.add(usuarios(),"Usuarios");
-        pages.add(menu(),"Menu"); pages.add(mesas(),"Mesas");
-        pages.add(pedidos(),"Pedidos"); pages.add(cocina(),"Cocina"); pages.add(caja(),"Caja");
+        pages.add(new MenuView(),"Menu"); pages.add(new MesaView(),"Mesas");
+        pages.add(new PedidoView(),"Pedidos"); pages.add(cocina(),"Cocina"); pages.add(caja(),"Caja"); pages.add(new FacturaView(),"Facturas");
         add(pages,BorderLayout.CENTER); show("Dashboard");
     }
     private void show(String name) {
@@ -141,5 +141,4 @@ public class MainView extends JFrame {
         }p.add(grid);return p;
     }
 }
-
 
