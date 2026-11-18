@@ -1,37 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Servicios;
-import Dao.UsuarioDao;
+
+import Dao.AccesoDao;
+import Model.RegistroAcceso;
 import Model.Usuario;
-/**
- *
- * @author mario
- */
+import java.util.List;
+
+/** Lleva el registro de quiénes han ingresado al sistema. */
 public class AutenticacionService {
 
-    private UsuarioDao usuarioDao;
+    private final AccesoDao accesoDao;
 
-    public AutenticacionService(UsuarioDao usuarioDao) {
-        this.usuarioDao = usuarioDao;
+    public AutenticacionService(AccesoDao accesoDao) {
+        this.accesoDao = accesoDao;
     }
 
-    public Usuario iniciarSesion(String correo, String contrasena) {
-
-        if (correo == null || correo.trim().isEmpty()
-                || contrasena == null || contrasena.isEmpty()) {
-            return null;
+    public void registrarIngreso(Usuario usuario) {
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuario no válido.");
         }
+        RegistroAcceso acceso = new RegistroAcceso();
+        acceso.setIdUsuario(usuario.getIdUsuario());
+        accesoDao.insertar(acceso);
+    }
 
-        Usuario usuario = usuarioDao.buscarPorCorreo(correo);
+    public List<RegistroAcceso> listarAccesos() {
+        return accesoDao.listar();
+    }
 
-        if (usuario != null
-                && usuario.getContrasena().equals(contrasena)
-                && "Activo".equalsIgnoreCase(usuario.getEstado())) {
-            return usuario;
-        }
-
-        return null;
+    public List<RegistroAcceso> listarAccesosDeUsuario(int idUsuario) {
+        return accesoDao.listarPorUsuario(idUsuario);
     }
 }

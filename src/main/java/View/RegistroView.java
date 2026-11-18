@@ -7,6 +7,8 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.MatteBorder;
+import DaoImp.UsuarioDaoImp;
+import Model.Usuario;
 
 /**
  *
@@ -86,15 +88,47 @@ public class RegistroView extends JFrame {
         back.setMaximumSize(new Dimension(140, 45));
 
         register.addActionListener(e -> {
-            if (nombre.getText().trim().isEmpty() || user.getText().trim().isEmpty() || pass.getPassword().length == 0) {
+            String nombreCompleto = nombre.getText().trim();
+            String correo = user.getText().trim();
+            String clave = new String(pass.getPassword());
+
+            if (nombreCompleto.isEmpty() || correo.isEmpty() || clave.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
                 return;
             }
-            JOptionPane.showMessageDialog(this, "Usuario " + user.getText() + " registrado como " + cmbRol.getSelectedItem() + " con éxito.");
+
+            // Separar "Nombre Completo" en nombre y apellido
+            String[] partes = nombreCompleto.split("\\s+", 2);
+            String nom = partes[0];
+            String ape = partes.length > 1 ? partes[1] : "-";
+
+            // El orden del combo debe coincidir con los id_rol de tu tabla "rol"
+            int idRol = cmbRol.getSelectedIndex() + 1;
+
+            try {
+                UsuarioDaoImp dao = new UsuarioDaoImp();
+
+                if (dao.buscarPorCorreo(correo) != null) {
+                    JOptionPane.showMessageDialog(this, "Ya existe un usuario con ese correo.");
+                    return;
+                }
+
+                Usuario nuevo = new Usuario(0, idRol, nom, ape, correo, clave, "Activo");
+                if (!dao.insertar(nuevo)) {
+                    JOptionPane.showMessageDialog(this, "No se pudo guardar el usuario.");
+                    return;
+                }
+            } catch (RuntimeException ex) {
+                Throwable causa = ex.getCause() != null ? ex.getCause() : ex;
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error de base de datos: " + causa.getMessage());
+                return;
+            }
+
+            JOptionPane.showMessageDialog(this, "Usuario " + correo + " registrado como " + cmbRol.getSelectedItem() + " con éxito.");
             loginView.setVisible(true);
             this.dispose();
         });
-
         back.addActionListener(e -> {
             loginView.setVisible(true);
             this.dispose();

@@ -7,7 +7,10 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import Controladores.AutenticacionController;
+import Controladores.LoginController;
 import Servicios.AutenticacionService;
+import Servicios.LoginService;
+import DaoImp.AccesoDaoImp;
 import DaoImp.UsuarioDaoImp;
 import Model.Usuario;
 
@@ -107,23 +110,34 @@ public class LoginView extends JFrame {
         login.addActionListener(e -> {
             String u = user.getText().trim();
             String p = new String(pass.getPassword());
-            if (u.isEmpty() || u.equals("Ingrese su usuario...") || p.isEmpty() || p.equals("Ingrese su contraseña...")) {
+            if (u.isEmpty() || u.equals("Ingrese su correo...") || p.isEmpty() || p.equals("Ingrese su contraseña...")) {
                 JOptionPane.showMessageDialog(this, "Ingrese usuario y contraseña.");
                 return;
             }
             try {
-                AutenticacionController controller = new AutenticacionController(
-                        new AutenticacionService(new UsuarioDaoImp()));
-                Usuario usuario = controller.iniciarSesion(u, p);
+                // 1. Verificar credenciales contra la base de datos
+                LoginController loginController = new LoginController(
+                        new LoginService(new UsuarioDaoImp()));
+                Usuario usuario = loginController.iniciarSesion(u, p);
                 pass.setText("");
                 if (usuario == null) {
                     JOptionPane.showMessageDialog(this, "Credenciales incorrectas o usuario inactivo.");
                     return;
                 }
+                // 2. Registrar el ingreso (si falla el registro, no bloquea el acceso)
+                try {
+                    new AutenticacionController(
+                            new AutenticacionService(new AccesoDaoImp()))
+                            .registrarIngreso(usuario);
+                } catch (RuntimeException exRegistro) {
+                    exRegistro.printStackTrace();
+                }
                 new MainView().setVisible(true);
                 dispose();
             } catch (RuntimeException ex) {
-                JOptionPane.showMessageDialog(this, "Error al iniciar sesión: " + ex.getMessage());
+                Throwable causa = ex.getCause() != null ? ex.getCause() : ex;
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al iniciar sesión: " + causa.getMessage());
             }
         });
 
