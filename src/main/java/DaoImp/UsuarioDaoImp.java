@@ -19,31 +19,39 @@ public class UsuarioDaoImp implements UsuarioDao {
 
     private static final String TABLA = "usuario";
 
-    private Usuario convertir(ResultSet rs) throws SQLException {
-        Usuario item = new Usuario();
-        item.setIdUsuario(rs.getInt("id_usuario"));
-        item.setIdRol(rs.getInt("id_rol"));
-        item.setNombre(rs.getString("nombre"));
-        item.setApellido(rs.getString("apellido"));
-        item.setCorreo(rs.getString("correo"));
-        item.setContrasena(rs.getString("contrasena"));
-        item.setEstado(rs.getString("estado"));
-        return item;
-    }
+   private Usuario convertir(ResultSet rs) throws SQLException {
+    Usuario item = new Usuario();
+
+    item.setIdUsuario(rs.getInt("id_usuario"));
+    item.setIdRol(rs.getInt("id_rol"));
+    item.setNombre(rs.getString("nombre"));
+    item.setApellido(rs.getString("apellido"));
+    item.setCorreo(rs.getString("correo"));
+    item.setContrasena(rs.getString("contrasenia"));
+
+    return item;
+}
 
     @Override
     public boolean insertar(Usuario usuario) {
-        String sql = "INSERT INTO usuario (id_rol, nombre, apellido, correo, contrasena, estado) VALUES (?, ?, ?, ?, ?, ?)";
+
+        String sql = "INSERT INTO usuario "
+                + "(id_rol, nombre, apellido, correo, contrasenia) "
+                + "VALUES (?, ?, ?, ?, ?)";
+
         try (Connection cn = ConexionDB.conectar(); PreparedStatement ps = cn.prepareStatement(sql)) {
+
             ps.setInt(1, usuario.getIdRol());
             ps.setString(2, usuario.getNombre());
             ps.setString(3, usuario.getApellido());
             ps.setString(4, usuario.getCorreo());
             ps.setString(5, usuario.getContrasena());
-            ps.setString(6, usuario.getEstado());
+
             return ps.executeUpdate() > 0;
+
         } catch (SQLException ex) {
-            throw new IllegalStateException("Error al insertar usuario", ex);
+            throw new IllegalStateException(
+                    "Error al insertar usuario", ex);
         }
     }
 
@@ -88,21 +96,33 @@ public class UsuarioDaoImp implements UsuarioDao {
     }
 
     @Override
-    public boolean actualizar(Usuario usuario) {
-        String sql = "UPDATE usuario SET id_rol = ?, nombre = ?, apellido = ?, correo = ?, contrasena = ?, estado = ? WHERE id_usuario = ?";
-        try (Connection cn = ConexionDB.conectar(); PreparedStatement ps = cn.prepareStatement(sql)) {
-            ps.setInt(1, usuario.getIdRol());
-            ps.setString(2, usuario.getNombre());
-            ps.setString(3, usuario.getApellido());
-            ps.setString(4, usuario.getCorreo());
-            ps.setString(5, usuario.getContrasena());
-            ps.setString(6, usuario.getEstado());
-            ps.setInt(7, usuario.getIdUsuario());
-            return ps.executeUpdate() > 0;
-        } catch (SQLException ex) {
-            throw new IllegalStateException("Error al actualizar usuario", ex);
-        }
+public boolean actualizar(Usuario usuario) {
+
+    String sql = "UPDATE usuario SET "
+            + "id_rol = ?, "
+            + "nombre = ?, "
+            + "apellido = ?, "
+            + "correo = ?, "
+            + "contrasenia = ? "
+            + "WHERE id_usuario = ?";
+
+    try (Connection cn = ConexionDB.conectar();
+         PreparedStatement ps = cn.prepareStatement(sql)) {
+
+        ps.setInt(1, usuario.getIdRol());
+        ps.setString(2, usuario.getNombre());
+        ps.setString(3, usuario.getApellido());
+        ps.setString(4, usuario.getCorreo());
+        ps.setString(5, usuario.getContrasena());
+        ps.setInt(6, usuario.getIdUsuario());
+
+        return ps.executeUpdate() > 0;
+
+    } catch (SQLException ex) {
+        throw new IllegalStateException(
+                "Error al actualizar usuario", ex);
     }
+}
 
     @Override
     public boolean eliminar(int idUsuario) {
@@ -114,6 +134,5 @@ public class UsuarioDaoImp implements UsuarioDao {
             throw new IllegalStateException("Error al eliminar usuario", ex);
         }
     }
-    
-    
+
 }
