@@ -22,8 +22,7 @@ public class LoginService {
         Usuario usuario = usuarioDao.buscarPorCorreo(correo.trim());
 
         if (usuario != null
-                && contrasena.equals(usuario.getContrasena())
-                && "Activo".equalsIgnoreCase(usuario.getEstado())) {
+                && contrasena.equals(usuario.getContrasena())){
             return usuario;
         }
         return null;

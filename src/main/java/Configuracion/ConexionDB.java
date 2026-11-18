@@ -1,9 +1,11 @@
+
 package Configuracion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.io.File;
 
 public class ConexionDB {
 
@@ -20,8 +22,11 @@ public class ConexionDB {
         String password =
             System.getenv("SMARTORDER_DB_PASSWORD");
 
-        String ca =
+        String truststore =
             System.getenv("SMARTORDER_DB_CA");
+
+        String truststorePassword =
+            System.getenv("SMARTORDER_DB_TRUSTSTORE_PASSWORD");
 
         if (password == null || password.isEmpty()) {
             throw new SQLException(
@@ -29,9 +34,24 @@ public class ConexionDB {
             );
         }
 
-        if (ca == null || ca.isEmpty()) {
+        if (truststore == null || truststore.isEmpty()) {
             throw new SQLException(
                 "Falta configurar SMARTORDER_DB_CA"
+            );
+        }
+
+        if (truststorePassword == null ||
+            truststorePassword.isEmpty()) {
+            throw new SQLException(
+                "Falta configurar SMARTORDER_DB_TRUSTSTORE_PASSWORD"
+            );
+        }
+
+        File archivo = new File(truststore);
+
+        if (!archivo.isFile()) {
+            throw new SQLException(
+                "No se encuentra el almacén de certificados"
             );
         }
 
@@ -39,8 +59,23 @@ public class ConexionDB {
 
         propiedades.setProperty("user", USUARIO);
         propiedades.setProperty("password", password);
+
         propiedades.setProperty("sslMode", "VERIFY_IDENTITY");
-        propiedades.setProperty("serverSslCert", ca);
+
+        propiedades.setProperty(
+            "trustCertificateKeyStoreUrl",
+            archivo.toURI().toString()
+        );
+
+        propiedades.setProperty(
+            "trustCertificateKeyStoreType",
+            "PKCS12"
+        );
+
+        propiedades.setProperty(
+            "trustCertificateKeyStorePassword",
+            truststorePassword
+        );
 
         return DriverManager.getConnection(URL, propiedades);
     }
