@@ -1,71 +1,131 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package View;
+
+import View.PedidoView.PedidoRegistro;
 
 import javax.swing.*;
 import java.awt.*;
 
-/**
- *
- * @author espin
- */
-
 public class CocinaView extends JPanel {
+
+    private final JPanel grid;
+
     public CocinaView() {
-        setBackground(Color.WHITE);
-        setBorder(BorderFactory.createEmptyBorder(45, 40, 38, 40));
-        setLayout(new BorderLayout(0, 24));
+        setBackground(new Color(244, 246, 250));
+        setBorder(BorderFactory.createEmptyBorder(28, 32, 28, 32));
+        setLayout(new BorderLayout(0, 18));
 
-        JLabel title = new JLabel("Cocina");
-        title.setFont(new Font("SansSerif", Font.BOLD, 28));
-        add(title, BorderLayout.NORTH);
+        JPanel header = new JPanel(new BorderLayout());
+        header.setOpaque(false);
+        JLabel title = new JLabel("Cocina — Comandas en Tiempo Real");
+        title.setFont(new Font("SansSerif", Font.BOLD, 24));
+        title.setForeground(new Color(23, 28, 38));
+        JLabel sub = new JLabel("Revisa el N° de pedido, mesa y detalle, y actualiza el estado a En preparación o Listo.");
+        sub.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        sub.setForeground(new Color(100, 110, 128));
+        header.add(title, BorderLayout.NORTH);
+        header.add(sub, BorderLayout.SOUTH);
+        add(header, BorderLayout.NORTH);
 
-        JPanel grid = new JPanel(new GridLayout(3, 3, 10, 10));
+        grid = new JPanel(new GridLayout(0, 3, 14, 14));
         grid.setOpaque(false);
 
-        String[] status = {"Recibido", "En preparacion", "Listo", "Listo", "Listo", "Recibido", "En preparacion", "Recibido", "En preparacion"};
-        String[] ids = {"20802", "30802", "40802", "90802", "42343", "14235", "23561", "42734", "92376"};
-        String[] food = {"1 Pizza Peperonni", "2 Hamburguesas", "2 Pastas Carbonara", "Filet de pescado", "1 Ensalada Caesar", "1 orden de papas fritas", "4 Piezas de pollo", "5 Tacos", "2 Hamburguesas"};
-        int[] tables = {6, 4, 24, 17, 20, 9, 5, 14, 19};
+        JScrollPane scroll = new JScrollPane(grid);
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+        scroll.getViewport().setBackground(new Color(244, 246, 250));
+        add(scroll, BorderLayout.CENTER);
 
-        for (int i = 0; i < 9; i++) {
-            JPanel card = new JPanel();
-            card.setBackground(new Color(218, 218, 218));
-            card.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-            card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        PedidoView.addPedidoListener(this::refrescar);
+        refrescar();
+    }
 
-            JLabel lblStatus = new JLabel(status[i]);
-            lblStatus.setFont(new Font("SansSerif", Font.BOLD, 14));
-            card.add(lblStatus);
-            card.add(Box.createVerticalStrut(10));
+    public void refrescar() {
+        grid.removeAll();
+        for (PedidoRegistro p : PedidoView.getPedidos()) {
+            JPanel card = new JPanel(new BorderLayout(0, 10));
+            card.setBackground(Color.WHITE);
+            card.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(210, 216, 226), 1, false),
+                    BorderFactory.createEmptyBorder(16, 16, 16, 16)
+            ));
 
-            JPanel inner = new JPanel();
-            inner.setBackground(Color.WHITE);
-            inner.setLayout(new BoxLayout(inner, BoxLayout.Y_AXIS));
-            inner.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            inner.setAlignmentX(Component.LEFT_ALIGNMENT);
+            JPanel topRow = new JPanel(new BorderLayout());
+            topRow.setOpaque(false);
 
-            JLabel lblId = new JLabel("Pedido #" + ids[i]);
-            lblId.setFont(new Font("SansSerif", Font.BOLD, 15));
-            JLabel lblFood = new JLabel(food[i]);
-            lblFood.setFont(new Font("SansSerif", Font.PLAIN, 13));
-            JLabel lblTable = new JLabel("Mesa " + tables[i]);
-            lblTable.setFont(new Font("SansSerif", Font.PLAIN, 13));
-            JLabel lblVer = new JLabel("Ver pedido...");
-            lblVer.setForeground(Color.GRAY);
-            lblVer.setFont(new Font("SansSerif", Font.PLAIN, 12));
+            JLabel lblEstado = new JLabel(p.estado.toUpperCase());
+            lblEstado.setFont(new Font("SansSerif", Font.BOLD, 13));
+            if ("Listo".equalsIgnoreCase(p.estado)) {
+                lblEstado.setForeground(new Color(22, 163, 74));
+            } else if ("En preparación".equalsIgnoreCase(p.estado)) {
+                lblEstado.setForeground(new Color(217, 119, 6));
+            } else {
+                lblEstado.setForeground(new Color(37, 99, 235));
+            }
 
-            inner.add(lblId);
-            inner.add(lblFood);
-            inner.add(lblTable);
-            inner.add(Box.createVerticalStrut(5));
-            inner.add(lblVer);
+            JLabel lblMesa = new JLabel(p.mesa > 0 ? "Mesa #" + p.mesa : p.tipo);
+            lblMesa.setFont(new Font("SansSerif", Font.BOLD, 13));
+            lblMesa.setForeground(new Color(23, 28, 38));
 
-            card.add(inner);
+            topRow.add(lblEstado, BorderLayout.WEST);
+            topRow.add(lblMesa, BorderLayout.EAST);
+            card.add(topRow, BorderLayout.NORTH);
+
+            JPanel body = new JPanel();
+            body.setOpaque(false);
+            body.setLayout(new BoxLayout(body, BoxLayout.Y_AXIS));
+
+            JLabel lblCod = new JLabel("Pedido: " + p.codigo);
+            lblCod.setFont(new Font("SansSerif", Font.BOLD, 16));
+            lblCod.setForeground(new Color(23, 28, 38));
+
+            JLabel lblCli = new JLabel("Cliente: " + p.cliente);
+            lblCli.setFont(new Font("SansSerif", Font.PLAIN, 13));
+            lblCli.setForeground(new Color(100, 110, 128));
+
+            JLabel lblDet = new JLabel("<html><b>Detalle:</b> " + p.detalle + "</html>");
+            lblDet.setFont(new Font("SansSerif", Font.PLAIN, 13));
+            lblDet.setForeground(new Color(23, 28, 38));
+
+            body.add(lblCod);
+            body.add(Box.createVerticalStrut(4));
+            body.add(lblCli);
+            body.add(Box.createVerticalStrut(8));
+            body.add(lblDet);
+            card.add(body, BorderLayout.CENTER);
+
+            JPanel btnRow = new JPanel(new GridLayout(1, 2, 8, 0));
+            btnRow.setOpaque(false);
+
+            JButton btnPrep = new JButton("En preparación");
+            btnPrep.setFont(new Font("SansSerif", Font.BOLD, 12));
+            btnPrep.setFocusPainted(false);
+            btnPrep.setBackground(new Color(254, 243, 199));
+            btnPrep.setForeground(new Color(146, 64, 14));
+            btnPrep.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(217, 119, 6), 1, false),
+                    BorderFactory.createEmptyBorder(8, 8, 8, 8)
+            ));
+            btnPrep.setEnabled(!"En preparación".equalsIgnoreCase(p.estado));
+            btnPrep.addActionListener(e -> PedidoView.actualizarEstadoPedido(p.codigo, "En preparación"));
+
+            JButton btnListo = new JButton("Marcar Listo");
+            btnListo.setFont(new Font("SansSerif", Font.BOLD, 12));
+            btnListo.setFocusPainted(false);
+            btnListo.setBackground(new Color(220, 252, 231));
+            btnListo.setForeground(new Color(20, 83, 45));
+            btnListo.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(22, 163, 74), 1, false),
+                    BorderFactory.createEmptyBorder(8, 8, 8, 8)
+            ));
+            btnListo.setEnabled(!"Listo".equalsIgnoreCase(p.estado));
+            btnListo.addActionListener(e -> PedidoView.actualizarEstadoPedido(p.codigo, "Listo"));
+
+            btnRow.add(btnPrep);
+            btnRow.add(btnListo);
+            card.add(btnRow, BorderLayout.SOUTH);
+
             grid.add(card);
         }
-        add(grid, BorderLayout.CENTER);
+        grid.revalidate();
+        grid.repaint();
     }
 }
