@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package View;
 
 import javax.swing.*;
@@ -14,108 +10,104 @@ import DaoImp.AccesoDaoImp;
 import DaoImp.UsuarioDaoImp;
 import Model.Usuario;
 
-/**
- *
- * @author mario
- */
-
 public class LoginView extends JFrame {
 
     public LoginView() {
-        setTitle("Restaurante SmartOrder - Iniciar sesión");
+        setTitle("Restaurante SmartOrder — Iniciar Sesión");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(500, 480);
+        setSize(460, 490);
         setLocationRelativeTo(null);
         setResizable(false);
-        
+
         JPanel base = new JPanel(new GridBagLayout());
-        base.setBackground(Color.WHITE);
-        
-        JPanel form = new JPanel();
-        form.setBackground(Color.WHITE);
-        form.setLayout(new BoxLayout(form, BoxLayout.Y_AXIS));
-        
+        base.setBackground(new Color(244, 246, 250));
+
+        JPanel card = new JPanel();
+        card.setBackground(Color.WHITE);
+        card.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(210, 216, 226), 1, false),
+                BorderFactory.createEmptyBorder(26, 28, 26, 28)
+        ));
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setPreferredSize(new Dimension(370, 400));
+
         JLabel title = new JLabel("Restaurante SmartOrder");
         title.setFont(new Font("SansSerif", Font.BOLD, 22));
+        title.setForeground(new Color(23, 28, 38));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        form.add(title);
-        form.add(Box.createVerticalStrut(30));
-        
-        form.add(label("Usuario"));
-        JTextField user = new JTextField(20);
-        user.setText("Ingrese su usuario...");
-        user.setForeground(Color.GRAY);
-        user.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (user.getText().equals("Ingrese su usuario...")) {
-                    user.setText("");
-                    user.setForeground(Color.BLACK);
-                }
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (user.getText().isEmpty()) {
-                    user.setForeground(Color.GRAY);
-                    user.setText("Ingrese su usuario...");
-                }
-            }
-        });
-        form.add(field(user));
-        form.add(Box.createVerticalStrut(15));
-        
-        form.add(label("Contraseña"));
-        JPasswordField pass = new JPasswordField(20);
-        pass.setEchoChar((char) 0);
-        pass.setText("Ingrese su contraseña...");
-        pass.setForeground(Color.GRAY);
-        pass.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (String.valueOf(pass.getPassword()).equals("Ingrese su contraseña...")) {
-                    pass.setText("");
-                    pass.setForeground(Color.BLACK);
-                    pass.setEchoChar('•');
-                }
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (String.valueOf(pass.getPassword()).isEmpty()) {
-                    pass.setForeground(Color.GRAY);
-                    pass.setEchoChar((char) 0);
-                    pass.setText("Ingrese su contraseña...");
-                }
-            }
-        });
-        form.add(field(pass));
-        form.add(Box.createVerticalStrut(25));
-        
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        buttonPanel.setBackground(Color.WHITE);
+        card.add(title);
+
+        JLabel subtitle = new JLabel("Inicia sesión para continuar");
+        subtitle.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        subtitle.setForeground(new Color(100, 110, 128));
+        subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(Box.createVerticalStrut(4));
+        card.add(subtitle);
+        card.add(Box.createVerticalStrut(24));
+
+        JLabel lblCorreo = new JLabel("Correo electrónico");
+        lblCorreo.setFont(new Font("SansSerif", Font.BOLD, 13));
+        lblCorreo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(lblCorreo);
+        card.add(Box.createVerticalStrut(6));
+
+        JTextField user = new JTextField(22);
+        user.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        user.setMaximumSize(new Dimension(320, 40));
+        user.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(195, 203, 214), 1, false),
+                BorderFactory.createEmptyBorder(8, 10, 8, 10)
+        ));
+        user.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(user);
+        card.add(Box.createVerticalStrut(14));
+
+        JLabel lblPass = new JLabel("Contraseña");
+        lblPass.setFont(new Font("SansSerif", Font.BOLD, 13));
+        lblPass.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(lblPass);
+        card.add(Box.createVerticalStrut(6));
+
+        JPasswordField pass = new JPasswordField(22);
+        pass.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        pass.setMaximumSize(new Dimension(320, 40));
+        pass.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(195, 203, 214), 1, false),
+                BorderFactory.createEmptyBorder(8, 10, 8, 10)
+        ));
+        pass.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(pass);
+        card.add(Box.createVerticalStrut(24));
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 12, 0));
+        buttonPanel.setOpaque(false);
         buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton login = new JButton("Iniciar Sesion");
-        login.setBackground(Color.BLACK);
+        JButton login = new JButton("Iniciar Sesión");
+        login.setFont(new Font("SansSerif", Font.BOLD, 13));
+        login.setBackground(new Color(37, 99, 235));
         login.setForeground(Color.WHITE);
-        login.setFont(new Font("SansSerif", Font.BOLD, 14));
         login.setFocusPainted(false);
-        login.setPreferredSize(new Dimension(140, 45));
-        login.setMaximumSize(new Dimension(140, 45));
-        
+        login.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
+
         JButton register = new JButton("Registrarse");
-        register.setBackground(new Color(230, 230, 230));
-        register.setForeground(Color.BLACK);
-        register.setFont(new Font("SansSerif", Font.BOLD, 14));
+        register.setFont(new Font("SansSerif", Font.BOLD, 13));
+        register.setBackground(new Color(238, 242, 247));
+        register.setForeground(new Color(23, 28, 38));
         register.setFocusPainted(false);
-        register.setPreferredSize(new Dimension(140, 45));
-        register.setMaximumSize(new Dimension(140, 45));
+        register.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(200, 206, 216), 1, false),
+                BorderFactory.createEmptyBorder(9, 16, 9, 16)
+        ));
 
         login.addActionListener(e -> {
             String u = user.getText().trim();
             String p = new String(pass.getPassword());
-            if (u.isEmpty() || u.equals("Ingrese su correo...") || p.isEmpty() || p.equals("Ingrese su contraseña...")) {
-                JOptionPane.showMessageDialog(this, "Ingrese usuario y contraseña.");
+            if (u.isEmpty() || p.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingresa tu correo y contraseña.");
                 return;
             }
             try {
-                // 1. Verificar credenciales contra la base de datos
                 LoginController loginController = new LoginController(
                         new LoginService(new UsuarioDaoImp()));
                 Usuario usuario = loginController.iniciarSesion(u, p);
@@ -124,7 +116,7 @@ public class LoginView extends JFrame {
                     JOptionPane.showMessageDialog(this, "Credenciales incorrectas o usuario inactivo.");
                     return;
                 }
-                // 2. Registrar el ingreso (si falla el registro, no bloquea el acceso)
+                UsuarioView.registrarUsuarioEnLista(usuario);
                 try {
                     new AutenticacionController(
                             new AutenticacionService(new AccesoDaoImp()))
@@ -147,28 +139,10 @@ public class LoginView extends JFrame {
         });
 
         buttonPanel.add(login);
-        buttonPanel.add(Box.createHorizontalStrut(20));
         buttonPanel.add(register);
+        card.add(buttonPanel);
 
-        form.add(buttonPanel);
-        base.add(form);
+        base.add(card);
         setContentPane(base);
-    }
-
-    private JLabel label(String text) {
-        JLabel l = new JLabel(text);
-        l.setFont(new Font("SansSerif", Font.PLAIN, 15));
-        l.setAlignmentX(Component.CENTER_ALIGNMENT);
-        return l;
-    }
-
-    private JComponent field(JTextField field) {
-        field.setBackground(new Color(230, 230, 230));
-        field.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
-        field.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        field.setMaximumSize(new Dimension(300, 45));
-        field.setPreferredSize(new Dimension(300, 45));
-        field.setAlignmentX(Component.CENTER_ALIGNMENT);
-        return field;
     }
 }
