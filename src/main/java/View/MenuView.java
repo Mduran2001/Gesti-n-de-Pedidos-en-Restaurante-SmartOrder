@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package View;
 
 import javax.swing.*;
@@ -5,7 +9,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.net.URL;
-
+/**
+ *
+ * @author nacho
+ */
 public class MenuView extends JPanel {
 
     private final Color COLOR_FONDO = new Color(244, 246, 250);

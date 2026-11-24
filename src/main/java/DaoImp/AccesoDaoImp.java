@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package DaoImp;
 
 import Configuracion.ConexionDB;
@@ -7,6 +11,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * @author mario
+ */
 public class AccesoDaoImp implements AccesoDao {
 
     private RegistroAcceso convertir(ResultSet rs) throws SQLException {

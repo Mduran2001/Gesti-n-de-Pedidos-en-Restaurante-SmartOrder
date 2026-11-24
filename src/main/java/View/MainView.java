@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package View;
 
 import View.CajaView.FacturaRegistro;
@@ -7,7 +11,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
+/**
+ *
+ * @author nacho
+ */
 public class MainView extends JFrame {
 
     private final JPanel pages = new JPanel(new CardLayout());
