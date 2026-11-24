@@ -1,9 +1,16 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Servicios;
 
 import Dao.UsuarioDao;
 import Model.Usuario;
 
-/** Verifica las credenciales contra la base de datos. */
+/**
+ *
+ * @author casti
+ */
 public class LoginService {
 
     private final UsuarioDao usuarioDao;
@@ -12,7 +19,6 @@ public class LoginService {
         this.usuarioDao = usuarioDao;
     }
 
-    /** @return el usuario si las credenciales son correctas y está activo; null si no. */
     public Usuario verificarCredenciales(String correo, String contrasena) {
         if (correo == null || correo.trim().isEmpty()
                 || contrasena == null || contrasena.isEmpty()) {

@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Servicios;
 
 import Dao.AccesoDao;
@@ -5,7 +9,10 @@ import Model.RegistroAcceso;
 import Model.Usuario;
 import java.util.List;
 
-/** Lleva el registro de quiénes han ingresado al sistema. */
+/**
+ *
+ * @author casti
+ */
 public class AutenticacionService {
 
     private final AccesoDao accesoDao;

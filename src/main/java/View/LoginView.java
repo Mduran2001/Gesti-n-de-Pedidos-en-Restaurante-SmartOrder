@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package View;
 
 import javax.swing.*;
@@ -9,7 +13,10 @@ import Servicios.LoginService;
 import DaoImp.AccesoDaoImp;
 import DaoImp.UsuarioDaoImp;
 import Model.Usuario;
-
+/**
+ *
+ * @author nacho
+ */
 public class LoginView extends JFrame {
 
     public LoginView() {

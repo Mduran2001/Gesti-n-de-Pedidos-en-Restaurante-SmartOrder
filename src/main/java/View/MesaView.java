@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package View;
 
 import Controladores.MesaController;
@@ -9,7 +13,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-
+/**
+ *
+ * @author nacho
+ */
 public class MesaView extends JPanel {
 
     public enum EstadoMesa {

@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package View;
 
 import DaoImp.UsuarioDaoImp;
@@ -8,7 +12,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ *
+ * @author nacho
+ */
 public class UsuarioView extends JPanel {
 
     private static final List<Usuario> USUARIOS_SESION = new ArrayList<>();
